@@ -7,7 +7,7 @@ set(FINAL_PATH "${CMAKE_BINARY_DIR}/LIBS")
 
 set(SDL2LIB_INCLUDE "${FINAL_PATH}/SDL2-2.30.1/include")
 set(SDL2LIB_LIB "${FINAL_PATH}/SDL2-2.30.1/lib/x64")
-#set(SDL2IMAGE_LIB_DIR "${FINAL_PATH}/SDL2_image-2.8.2")
+#set(SDL2IMAGE_LIB_DIR "${FINAL_PATH}/SDL2_image")
 
 include_directories("${FINAL_PATH}/SDL2-2.30.1/include")
 add_executable(${PROJECT_NAME} main.cpp

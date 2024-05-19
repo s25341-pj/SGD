@@ -10,6 +10,11 @@ int posY = 20;
 int dir = 5;
 std::vector<int> coll;
 
+int r = 0;
+int g = 0;
+int b = 0;
+int counter = 0;
+
 //Funkcja określająca kierunek kolizji
 int CollisionDirection(SDL_Rect square1, SDL_Rect square2) {
     int thisRight = square1.x + square1.w;
@@ -100,33 +105,6 @@ int main(int argc, char* args[]) {
         for (const auto& goal : goals) {
             if (SDL_HasIntersection(&player, &goal)) {
                 collidedWithGoal = true;
-                if (collidedWithGoal) {
-
-                    int counter = 0;
-                    int r = 0;
-                    int g = 0;
-                    int b = 0;
-
-                    while(1){
-
-                        SDL_RenderClear(renderer);
-
-                        if(counter%100==0){
-                            r++;
-                            r = r%255;
-                            g++;
-                            g = g%255;
-                            g++;
-                            b = b%255;
-                        }
-
-                        SDL_SetRenderDrawColor(renderer, r,g,b,255);
-
-                        counter++;
-                        SDL_RenderPresent(renderer);
-                    }
-                }
-                //break;
             }
             // Sprawdzanie kolizji z każdą ścianą labiryntu
             for (const auto& wall : walls) {
@@ -135,6 +113,33 @@ int main(int argc, char* args[]) {
                 }
             }
         }
+
+        if (collidedWithGoal) {
+
+            SDL_RenderClear(renderer);
+
+                r++;
+                r = r%255;
+                g++;
+                g = g%255;
+                g++;
+                b = b%255;
+
+            SDL_SetRenderDrawColor(renderer, r,g,b,255);
+
+            SDL_Rect endscreen = {static_cast<int>(0), static_cast<int>(0), 640, 480};
+            SDL_RenderFillRect(renderer, &endscreen);
+
+            SDL_RenderPresent(renderer);
+
+            const Uint8* state = SDL_GetKeyboardState(NULL);
+            if (state[SDL_SCANCODE_R]){
+                std::exit(0);
+            }
+        }
+
+        SDL_SetRenderDrawColor(renderer, r,g,b,255);
+        SDL_RenderPresent(renderer);
 
         //Obsługa zdarzeń w grze (naciśnięcie klawiszy, zamknięcie okna)
         while (SDL_PollEvent(&event)) {
@@ -176,6 +181,7 @@ int main(int argc, char* args[]) {
             SDL_Delay(MS_PER_FRAME - elapsedTime);
         }
 
+        counter++;
         lastFrameTime = SDL_GetTicks();
     }
 
